@@ -6,10 +6,14 @@ extern crate byteorder;
 extern crate cid;
 extern crate data_encoding;
 extern crate integer_encoding;
+#[cfg(feature = "serde-support")]
+extern crate serde;
 
 mod encoding;
 mod errors;
 mod protocol;
+#[cfg(feature = "serde-support")]
+mod serde_impl;
 
 pub use errors::{Error, Result};
 pub use protocol::{AddrComponent, Protocol, ProtocolArgSize};

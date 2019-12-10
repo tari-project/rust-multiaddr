@@ -8,8 +8,12 @@ name = "multiaddr"
 readme = "README.md"
 version = "0.3.1"
 
+[features]
+serde-support = ["serde"]
+
 [dependencies]
 byteorder = "1.0"
 cid = "~0.3"
 integer-encoding = "1.0.3"
 data-encoding = "2.0.0"
+serde={version = "1", optional = true}
