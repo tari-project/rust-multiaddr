@@ -365,6 +365,32 @@ impl ToMultiaddr for SocketAddrV6 {
     }
 }
 
+impl From<IpAddr> for Multiaddr {
+    fn from(ip: IpAddr) -> Self {
+        match ip {
+            IpAddr::V4(ip) => AddrComponent::IP4(ip).into(),
+            IpAddr::V6(ip) => AddrComponent::IP6(ip).into(),
+        }
+    }
+}
+
+impl From<SocketAddr> for Multiaddr {
+    fn from(addr: SocketAddr) -> Self {
+        match addr {
+            SocketAddr::V4(addr) => {
+                let mut a: Multiaddr = AddrComponent::IP4(addr.ip().clone()).into();
+                a.append(AddrComponent::TCP(addr.port()));
+                a
+            },
+            SocketAddr::V6(addr) => {
+                let mut a: Multiaddr = AddrComponent::IP6(addr.ip().clone()).into();
+                a.append(AddrComponent::TCP(addr.port()));
+                a
+            },
+        }
+    }
+}
+
 impl ToMultiaddr for IpAddr {
     fn to_multiaddr(&self) -> Result<Multiaddr> {
         match *self {

@@ -19,6 +19,22 @@ impl fmt::Display for Error {
     }
 }
 
+impl PartialEq for Error {
+    fn eq(&self, other: &Self) -> bool {
+        use Error::*;
+        match (self, other) {
+            (UnknownProtocol, UnknownProtocol) => true,
+            (UnknownProtocolString, UnknownProtocolString) => true,
+            (InvalidMultiaddr, InvalidMultiaddr) => true,
+            (MissingAddress, MissingAddress) => true,
+            (ParsingError(_), ParsingError(_)) => true,
+            _ => false,
+        }
+    }
+}
+
+impl Eq for Error {}
+
 impl error::Error for Error {
     fn description(&self) -> &str {
         match *self {
